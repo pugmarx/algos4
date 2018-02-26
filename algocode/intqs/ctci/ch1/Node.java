@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0_125.
- */
 class Node {
     String key;
     String value;
@@ -10,21 +7,22 @@ class Node {
     }
 
     public Node(String string, String string2) {
-        this.key = string;
+        this.key   = string;
         this.value = string2;
     }
 
     public String toString() {
-        return this.key + " -> " + this.value;
+        return(this.key + " -> " + this.value);
     }
 
     public boolean equals(Node node) {
-        return this.key.equals(node.key) && this.value.equals(node.value);
+        return(this.key.equals(node.key) && this.value.equals(node.value));
     }
 
     public int hashCode() {
         int n = this.key.hashCode();
+
         n = 31 * n;
-        return n;
+        return(n);
     }
 }
