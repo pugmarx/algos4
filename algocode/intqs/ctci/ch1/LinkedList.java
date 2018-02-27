@@ -99,7 +99,8 @@ public class LinkedList {
         }
         if (this.N == 1) {
             --this.N;
-            return(this.first.value);
+			first = null;
+            return null;
         }
         --this.N;
         Node node = this.first;

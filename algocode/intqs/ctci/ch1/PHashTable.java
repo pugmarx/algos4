@@ -9,13 +9,15 @@ import java.util.*;
 
 public class PHashTable {
     private static final int LEN = 15;
-    private LinkedList[] ll      = new LinkedList[15];
+	private int N = 0;
+    private LinkedList[] ll = new LinkedList[LEN];
 
     public void put(String string, String string2) {
         int n = this.getBucket(new Node(string, string2));
 
         if (this.ll[n] == null) {
             this.ll[n] = new LinkedList();
+			N++;
         }
         this.ll[n].add(string, string2);
     }
@@ -36,6 +38,10 @@ public class PHashTable {
         int b = getBucket(new Node(key, null));
 
         ll[b].remove(key);
+		if(ll[b].size() < 1){
+			ll[b] = null;
+		}
+
     }
 
     public void print() {
