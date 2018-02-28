@@ -16,7 +16,7 @@ class Node <K, V> {
     }
 
     public boolean equals(Node node) {
-        return(this.key.equals(node.key) && this.value.equals(node.value));
+        return(this.key.equals(node.key));
     }
 
     public int hashCode() {

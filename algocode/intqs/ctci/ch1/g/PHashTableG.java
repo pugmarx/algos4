@@ -4,26 +4,49 @@ import java.lang.reflect.Array;
 
 /**
  * A simple string-based hashtable table that uses an array of linkedlists to store data
- * TODO: Dynamic resizing of original array
+ *      TODO: Make it generic						*** Done
+ * TODO: Dynamic resizing of original array		*** Done
+ *      FIXME LLs are always adding to the head
+ *      FIXME Existing keys should be replced if passed again
  **/
 
 public class PHashTableG <K, V> {
-    private static final int LEN = 15;
-//    private LinkedList<K,V>[] ll = (LinkedList<K,V>[]) new Object[LEN];
-    private LinkedList <K, V>[] ll = (LinkedList <K, V>[])Array.newInstance(LinkedList.class, LEN);
-    public void put(K string, V string2) {
-        int n = this.getBucket(new Node <K, V>(string, string2));
+    private static int cap = 15;
+    private static int sz;
+    private static final double LOAD_FACTOR = 0.75;
+    private LinkedList <K, V>[] ll          = (LinkedList <K, V>[])Array.newInstance(LinkedList.class, cap);
+
+
+    public void put(K key, V value) {
+        modifyCapacityIfNeeded();
+        int n = this.getBucket(new Node <K, V>(key, value));
 
         if (this.ll[n] == null) {
             this.ll[n] = new LinkedList <K, V>();
+            sz++;
         }
-        this.ll[n].add(string, string2);
+
+        this.ll[n].add(key, value);
+    }
+
+    private void modifyCapacityIfNeeded() {
+        int threshold = new Double(cap * LOAD_FACTOR).intValue();
+
+        if (sz >= threshold) {
+            LinkedList <K, V>[] tmp = (LinkedList <K, V>[])Array.newInstance(LinkedList.class, cap);
+            tmp     = Arrays.copyOf(ll, ll.length);
+            cap     = 2 * cap;
+            this.ll = (LinkedList <K, V>[])Array.newInstance(LinkedList.class, cap);
+            //this.ll = Arrays.copyOf(tmp, tmp.length);
+            System.arraycopy(tmp, 0, ll, 0, tmp.length);
+            //print();
+        }
     }
 
     private int getBucket(Node <K, V> node) {
         int n = node.hashCode();
 
-        return(Math.abs(n % LEN));
+        return(Math.abs(n % cap));
     }
 
     public V get(K key) {
@@ -38,11 +61,12 @@ public class PHashTableG <K, V> {
         ll[b].remove(key);
         if (ll[b].size() == 0) {
             ll[b] = null;
+            sz--;
         }
     }
 
     public void print() {
-        for (int i = 0; i < LEN; ++i) {
+        for (int i = 0; i < cap; ++i) {
             System.out.println(this.ll[i]);
         }
         System.out.println();
@@ -77,18 +101,32 @@ public class PHashTableG <K, V> {
  */
         PHashTableG <Integer, Integer> p1 = new PHashTableG <>();
 
+        p1.put(0, 445);
         p1.put(1, 12345);
         p1.put(2, 222);
-        p1.put(23, 455);
+        p1.put(3, 455);
         p1.put(4, 5);
-        p1.put(233, 45);
-        p1.put(5, 2);
-        p1.put(32, 45555);
+        p1.put(5, 45);
+        p1.put(6, 2);
+        p1.put(7, 45555);
+        p1.put(8, 45);
+        p1.put(9, 2);
+        p1.put(11, 45555);
+        p1.put(22, 5555);
+        p1.put(33, 65555);
+        p1.put(44, 4555);
+        p1.put(55, 453555);
+        p1.put(66, 45455);
+        p1.put(77, 555);
+        p1.put(90, 4655);
+        p1.put(88, 45655);
 
-        p1.print();
-        p1.remove(4);
-        p1.print();
-        p1.put(4, 5);
+        p1.put(6, 11111);
+//	    p1.print();
+//        p1.remove(4);
+//		p1.remove(23);
+//        p1.print();
+//        p1.put(4, 5);
         p1.print();
         System.out.println("get 32 " + p1.get(32));
     }
