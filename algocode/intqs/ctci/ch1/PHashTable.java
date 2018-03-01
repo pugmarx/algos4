@@ -24,8 +24,7 @@ public class PHashTable {
 
     private int getBucket(Node node) {
         int n = node.hashCode();
-
-        return(Math.abs(n % LEN));
+        return(Math.abs(n % LEN)); // FIXME Broken!! Math.abs() returns a negative result for largest negative number. This impl. will conk off if there are around a billion insertions!!
     }
 
     public String get(String key) {
