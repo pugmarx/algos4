@@ -1,3 +1,7 @@
+
+/**
+Basic BST impl. from Sedgewick et. al.
+**/
 public class BST<Key extends Comparable<Key>, Value>{
 
 	private Node root;
@@ -12,6 +16,17 @@ public class BST<Key extends Comparable<Key>, Value>{
 			this.val = val;
 			this.N = N;
 		}
+		public String toString(){
+			System.out.println(key);
+			if(left != null){
+				System.out.print(" / ");
+			}
+			if(right != null){
+				System.out.print(" \\ ");
+			}
+			//System.out.println();
+			return "";
+		}
 	}
 	
 	public int size(){
@@ -23,10 +38,26 @@ public class BST<Key extends Comparable<Key>, Value>{
 	}
 
 	public Value get(Key key){
-		
 		return get(root, key);
-		
 	}	
+
+	public void print(){
+		print(root);
+	}
+
+	String tab = "\t";
+	private void print(Node n){
+		if (n == null) return;
+
+		tab += "\t";
+		System.out.println(tab+n);
+		if(n.left != null){
+			print(n.left);
+		}
+		if(n.right != null){
+			print(n.right);
+		}
+	}
 
 	private Value get(Node n, Key key){
 		if(n == null) return null;
@@ -56,6 +87,18 @@ public class BST<Key extends Comparable<Key>, Value>{
 
 		n.N = size(n.left) + size(n.right) + 1;
 		return n;
+	}
+
+	public static void main(String a[]){
+		BST<String, String> bst = new BST<String, String>();
+		bst.put("d","hello");
+		bst.put("b","world");
+		bst.put("e","foo");
+		bst.put("a","bar");
+		
+		bst.print();		
+		System.out.println("size: "+bst.size());
+		System.out.println(bst.get("c"));		
 	}
 	
 }
